@@ -1,3 +1,4 @@
+# Variables for Unifi
 variable "unifi_username" {
   type = string
 }

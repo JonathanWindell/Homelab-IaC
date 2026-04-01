@@ -2,4 +2,5 @@
 
 *.tfvars
 *.tfvars.json
-terraform.tfvars
+unifi.tfvars
+proxmox.tfvars
