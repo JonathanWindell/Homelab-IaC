@@ -23,8 +23,8 @@ resource "unifi_firewall_rule" "ssh_pc" {
 
     protocol = "tcp"
     dst_port = "22"
-    src_address = var.unifi_stationary_pc_address
-    dst_address = var.unifi_raspberry_pi_address
+    src_address = var.unifi_config.stationary_pc_address
+    dst_address = var.unifi_config.raspberry_pi_address
 }
 
 # Laptop to Honeypot Rule
@@ -36,8 +36,8 @@ resource "unifi_firewall_rule" "ssh_laptop" {
 
     protocol = "TCP"
     dst_port = "22"
-    src_address = var.unifi_gateway_address
-    dst_address = var.unifi_raspberry_pi_address
+    src_address = var.unifi_config.gateway_address
+    dst_address = var.unifi_config.raspberry_pi_address
 }
 
 resource "unifi_firewall_rule" "Information" {
@@ -48,6 +48,6 @@ resource "unifi_firewall_rule" "Information" {
 
     protocol = "tcp"
     dst_port = "1514,1515"
-    src_address = var.unifi_raspberry_pi_address
-    dst_address = var.unifi_wazuh_manager_address
+    src_address = var.unifi_config.raspberry_pi_address
+    dst_address = var.unifi_config.wazuh_manager_address
 }

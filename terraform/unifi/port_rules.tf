@@ -2,7 +2,7 @@
 
 # Port rules for UCG Ultra Router
 resource "unifi_device" "ucg_ultra" {
-    mac = var.unifi_ucg_ultra_router_mac
+    mac = var.unifi_config.ucg_ultra_router_mac
     name = "UCG Ultra Router"
 
     port_override {
@@ -23,7 +23,7 @@ resource "unifi_device" "ucg_ultra" {
 
 # Port rules for USW Flex Switch
 resource "unifi_device" "usw_flex" {
-    mac = var.unifi_usw_flex_switch_mac
+    mac = var.unifi_config.usw_flex_switch_mac
     name = "USW Flex Switch"
 
     port_override {

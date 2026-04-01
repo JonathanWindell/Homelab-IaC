@@ -12,21 +12,17 @@ terraform {
 
   # Provider for Unifi
   provider "unifi" {
-    username = var.unifi_username
-    password = var.unifi_password
-    api_url = var.unifi.api_url
+    username = var.unifi_config.username
+    password = var.unifi_config.password
+    api_url = var.unifi_config.api_url
     allow_insecure = true
   }
 
   # Variables needed for Unifi Provider
-  module "unifi_network" {
-  source = "./terraform/unifi" 
-
-  unifi_home_network_vlan = var.unifi_home_network_vlan
-  unifi_stationary_pc_address = var.unifi_stationary_pc_address
-  # Not Finished
+  module "unifi_setup" {
+    source = "./terraform/unifi" 
+    config = var.unifi_config
   }
-
 
   # Provider for Proxmox
   provider "proxmox" {

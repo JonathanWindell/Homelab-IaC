@@ -3,8 +3,8 @@
 # HTTPS Rule for personal portfolio
 resource "unifi_port_forward" "home network" {
     name    = "Portfolio HTTPS"
-    src_shelf = "wan" # Beror på provider-version
-    fwd_ip    = var.unifi_personal_portfolio_address
+    src_shelf = "wan" 
+    fwd_ip    = var.unifi_config.personal_portfolio_address
     fwd_port  = "443"
     dst_port  = "443"
     protocol  = "tcp"
@@ -14,7 +14,7 @@ resource "unifi_port_forward" "home network" {
 resource "unifi_port_forward" "home network" {
     name    = "Web Honeypot External"
     src_shelf = "wan"
-    fwd_ip    = var.unifi_raspberry_pi_address
+    fwd_ip    = var.unifi_config.raspberry_pi_address
     fwd_port  = "8080"
     dst_port  = "8082"
     protocol  = "tcp"
@@ -31,7 +31,7 @@ resource "unifi_network" "honeypot networks" {
     }
 
     forward = {
-        ip_adress = var.unifi_raspberry_pi_address
+        ip_adress = var.unifi_config.raspberry_pi_address
         port = "8080"
     }
 }
