@@ -6,7 +6,7 @@ terraform {
     }
     proxmox = {
       source = “telmate/proxmox”
-      version = “2.7.4” 
+      version = “3.0.2-rc04” 
     }
   }
 
@@ -21,15 +21,20 @@ terraform {
   # Variables needed for Unifi Provider
   module "unifi_setup" {
     source = "./terraform/unifi" 
-    config = var.unifi_config
+    unifi_config = var.unifi_config_module
   }
 
   # Provider for Proxmox
   provider "proxmox" {
-    pm_api_url = var.unifi_proxmox_address
-    pm_api_token = var.unifi.proxmox_api_token
-    pm_api_token_secret = var.unifi.proxmox_api_token_secret
+    pm_api_url = var.proxmox_config.address
+    pm_api_token = var.proxmox_config.api_token
+    pm_api_token_secret = var.proxmox_config.api_token_secret
     pm_tls_insecure = true
+  }
+
+  module "proxmox_setup" {
+    source = ./terraform/proxmox
+    proxmox_config = var.proxmox_config_module
   }
 
 
