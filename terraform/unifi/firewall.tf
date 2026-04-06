@@ -4,8 +4,9 @@
 resource "unifi_firewall_rule" "Any" {
     name = "Allow Established/Related"
     action = "accept"
-    ruleset = "LAN-IN"
+    ruleset = "LAN_IN"
     rule_index = 20001
+    protocol = "all"
 
     src_address = "all"
     dst_address = "all"
@@ -18,7 +19,7 @@ resource "unifi_firewall_rule" "Any" {
 resource "unifi_firewall_rule" "ssh_pc" {
     name = "Pc to Honeypot"
     action = "accept"
-    ruleset = "LAN-IN"
+    ruleset = "LAN_IN"
     rule_index = 20000
 
     protocol = "tcp"
@@ -31,10 +32,10 @@ resource "unifi_firewall_rule" "ssh_pc" {
 resource "unifi_firewall_rule" "ssh_laptop" {
     name = "Laptop to Honeypot"
     action = "accept"
-    ruleset = "LAN-IN"
+    ruleset = "LAN_IN"
     rule_index = 20002
 
-    protocol = "TCP"
+    protocol = "tcp"
     dst_port = "22"
     src_address = var.unifi_config.gateway_address
     dst_address = var.unifi_config.raspberry_pi_address
@@ -43,7 +44,7 @@ resource "unifi_firewall_rule" "ssh_laptop" {
 resource "unifi_firewall_rule" "Information" {
     name = "Honeypot to Wazuh"
     action = "accept"
-    ruleset = "LAN-IN"
+    ruleset = "LAN_IN"
     rule_index = 20003
 
     protocol = "tcp"

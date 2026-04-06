@@ -1,41 +1,38 @@
 terraform {
   required_providers {
     unifi = {
-      source = "paultyng/unifi"
-      version = "0.36.0" # Kontrollera senaste versionen
+      source          = "paultyng/unifi"
+      version         = "0.36.0"
     }
     proxmox = {
-      source = “telmate/proxmox”
-      version = “3.0.2-rc04” 
+      source          = "telmate/proxmox"
+      version         = "3.0.2-rc04" 
     }
   }
+}
 
-  # Provider for Unifi
-  provider "unifi" {
-    username = var.unifi_config.username
-    password = var.unifi_config.password
-    api_url = var.unifi_config.api_url
-    allow_insecure = true
-  }
+# Unifi Config
+provider "unifi" {
+  username            = var.unifi_config_module.username
+  password            = var.unifi_config_module.password
+  api_url             = var.unifi_config_module.api_url
+  allow_insecure      = true
+}
 
-  # Variables needed for Unifi Provider
-  module "unifi_setup" {
-    source = "./terraform/unifi" 
-    unifi_config = var.unifi_config_module
-  }
+module "unifi_setup" {
+  source              = "./unifi" 
+  unifi_config        = var.unifi_config_module
+}
 
-  # Provider for Proxmox
-  provider "proxmox" {
-    pm_api_url = var.proxmox_config.address
-    pm_api_token = var.proxmox_config.api_token
-    pm_api_token_secret = var.proxmox_config.api_token_secret
-    pm_tls_insecure = true
-  }
+# Proxmox Config
+provider "proxmox" {
+  pm_api_url          = var.proxmox_config_module.address
+  pm_api_token_id     = var.proxmox_config_module.api_token
+  pm_api_token_secret = var.proxmox_config_module.api_token_secret
+  pm_tls_insecure     = true
+}
 
-  module "proxmox_setup" {
-    source = ./terraform/proxmox
-    proxmox_config = var.proxmox_config_module
-  }
-
-
+module "proxmox_setup" {
+  source              = "./proxmox" 
+  proxmox_config      = var.proxmox_config_module
 }
