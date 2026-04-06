@@ -25,3 +25,6 @@ ENV/
 ansible-venv/
 .ansible-venv/
 
+# Exclude Ansible Variables
+**/n8n.yml
+**/group_variables/
