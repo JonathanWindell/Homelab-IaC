@@ -1,4 +1,0 @@
-portfolio_config:
-  portfolio_image: nginx:alpine
-  portfolio_port: 8081:80
-  deploy_path: "/opt/portfolio"
