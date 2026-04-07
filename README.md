@@ -6,8 +6,8 @@
 
 
 # Highlights
-- **Boilerplate:** Need some inspiration for your own IaC? Use this as a boilerplate to get things started!
 - **Clean Architecture:** This repository follows a structured architecture with no hardcoded valueds and seperatation of concerns to create easy maintainability.
+- **Ease of Use:** Using IaC I'm able to quick spin up configured LXC & VM:s without having to think of how they need to be set up or click around different settings.
 
 # Overview
 This project contains my personal IaC for my own homelab. I often found myself google the same questions like "how to setup VM in Proxmox" etc. I realised that by creating a personal "truth" as I like to call it on how my homelab is set up I never have to google these questions again. Using IaC also saves one self a lot of time. 
@@ -18,44 +18,38 @@ I'm Jonathan and I develop projects in my sparetime that help myself and others 
 - [Linkedin](https://www.linkedin.com/in/jonathan-windell-418a55232/)
 - [Portfolio](https://portfolio.jonathans-labb.org/)
 
-# Diagram
-Create .d2 diagram
 
-# File Structure
+# Project Structure
 ```
 .
 ├── ansible/
+│   ├── host_vars            # Contains secret values
 │   ├── playbook/
-│   │   └── group_vars
-│   └── templates 
-├── documentation   # Manual Setup Steps
+│   │   └── group_vars       # Contains secret values
+│   ├── templates            # Docker structures & values
+│   ├── inventory.ini
+│   ├── n8n_setup.yml        # Setup for n8n
+│   └── portfolio_setup.yml  # Setup for portfolio
+├── documentation            # Manual setup steps
 ├── terraform/
-│   ├── proxmox     # Setup for Proxmox
-│   └── unifi       # Setup for Unifi
-├── .gitignore      # Files Git should Ignore
-├── LICENSE         # MIT License
-├── README          # Overview & Usage
-└── Requirements    # Needed Packages
+│   ├── proxmox              # Setup for proxmox
+│   ├── unifi                # Setup for unifi
+│   ├── terraform.lock.hcl   # Information about providers
+│   ├── provider.tf          # Providers & connections
+│   ├── terraform.tfvars     # Contains secret value
+│   └── variables.tf         # Creates objects for variables
+├── .gitignore               # Files Git should ignore
+├── commands.txt             # Useful commands
+├── LICENSE                  # MIT license
+├── README.md                # Overview & usage
+└── Requirements.tx          # Needed packages
 ```
 
-# Usage Instructions
-Use it as biolerplate
-
-Create .tfvars file
-
-Create .gitignore
-
-Install Ansible (venv) NOTE WSL or Linux
-
-Install Terraform NOTE Add Enviroment Variable
-
-# Installations Instructions
-To use this code you first have to modify it to suit your infrastructure. Documentation that helped me is linked below. 
+# Recommended Reading
+Documentation used to create this repository
 
 - [Terraform Documentation](https://registry.terraform.io/browse/providers)
 - [Ansible Documentation](https://docs.ansible.com/projects/ansible/latest/index.html)
-
-Installing against server & router etc. 
 
 # License
 
