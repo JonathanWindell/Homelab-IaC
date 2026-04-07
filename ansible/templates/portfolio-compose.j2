@@ -1,0 +1,10 @@
+services:
+    portfolio:
+        image: "{{ portfolio_config.portfolio_image }}"
+        restart: always
+        ports:
+            - "{{ portfolio_config.portfolio_port }}"
+        env_file:
+            - portfolio.env
+        volumes: 
+             - {{ portfolio_config.deploy_path }}:/usr/share/nginx/html:ro

@@ -21,12 +21,33 @@ I'm Jonathan and I develop projects in my sparetime that help myself and others 
 # Diagram
 Create .d2 diagram
 
+# File Structure
+```
+.
+├── ansible/
+│   ├── playbook/
+│   │   └── group_vars
+│   └── templates 
+├── documentation   # Manual Setup Steps
+├── terraform/
+│   ├── proxmox     # Setup for Proxmox
+│   └── unifi       # Setup for Unifi
+├── .gitignore      # Files Git should Ignore
+├── LICENSE         # MIT License
+├── README          # Overview & Usage
+└── Requirements    # Needed Packages
+```
+
 # Usage Instructions
 Use it as biolerplate
 
 Create .tfvars file
 
 Create .gitignore
+
+Install Ansible (venv) NOTE WSL or Linux
+
+Install Terraform NOTE Add Enviroment Variable
 
 # Installations Instructions
 To use this code you first have to modify it to suit your infrastructure. Documentation that helped me is linked below. 

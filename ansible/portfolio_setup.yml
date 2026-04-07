@@ -1,0 +1,36 @@
+---
+- name: Deploy Latest Version of Portfolio
+  hosts: portfolio_container
+  become: true
+
+  tasks:
+    - name: Ensure deployment directory exists
+      ansible.builtin.file:
+        path: "{{ portfolio_config.deploy_path }}"
+        state: directory
+        mode: '0755'
+
+    - name: Create .env file
+      ansible.builtin.template:
+        src: templates/portfolio.env.j2
+        dest: "{{ portfolio_config.deploy_path }}/portfolio.env"
+
+    - name: Create docker-compose file
+      ansible.builtin.template:
+        src: templates/portfolio_compose.j2
+        dest: "{{ portfolio_config.deploy_path }}/docker-compose.yml"
+
+    - name: Get Latest Version of Portfolio from Git
+      ansible.builtin.git:
+        repo: 'git@github.com:JonathanWindell/PersonalPortfolio.git'
+        dest: "{{ portfolio_config.deploy_path }}"
+        version: main
+        key_file: /home/ubuntu/.ssh/id_ed25519 # File needs to be created and appended to management VM
+        accept_hostkey: yes
+        force: yes
+
+    - name: Start Docker Container
+      community.docker.docker_compose_v2:
+        project_src: "{{ portfolio_config.deploy_path }}"
+        state: present
+        recreate: always

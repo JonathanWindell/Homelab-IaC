@@ -1,0 +1,26 @@
+---
+- name: Setup n8n
+  hosts: n8n_lxc
+  become: true
+
+  tasks:
+    - name: Ensure deployment directory exists
+      ansible.builtin.file:
+        path: /opt/n8n
+        state: directory
+        mode: '0755'
+
+    - name: Create .env file
+      ansible.builtin.template:
+        src: templates/n8n.env.j2
+        dest: /opt/n8n/n8n.env
+
+    - name: Create docker-compose file
+      ansible.builtin.template:
+        src: templates/n8n-compose.j2
+        dest: /opt/n8n/docker-compose.yml
+
+    - name: Start docker-compose
+      community.docker.docker_compose_v2:
+        project_src: /opt/n8n
+        state: present

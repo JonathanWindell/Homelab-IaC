@@ -28,3 +28,4 @@ ansible-venv/
 # Exclude Ansible Variables
 **/n8n.yml
 **/group_variables/
+**/host_vars/

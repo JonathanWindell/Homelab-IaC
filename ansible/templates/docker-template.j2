@@ -1,0 +1,44 @@
+services:
+  {{ service_name }}:
+    image: {{ docker_image }}
+    container_name: {{ service_name }}
+    restart: {{ restart_policy | default('always') }}
+    
+    {% if host_port is defined %}
+    ports:
+      - "{{ host_port }}:{{ container_port }}"
+    {% endif %}
+
+    {% if volumes is defined %}
+    volumes:
+      {% for vol in volumes %}
+      - "{{ vol }}"
+      {% endfor %}
+    {% endif %}
+
+    {% if env_vars is defined or env_file_path is defined %}
+    {% if env_file_path is defined %}
+    env_file:
+      - {{ env_file_path }}
+    {% else %}
+    environment:
+      {% for key, value in env_vars.items() %}
+      {{ key }}: "{{ value }}"
+      {% endfor %}
+    {% endif %}
+    {% endif %}
+
+    {% if networks is defined %}
+    networks:
+      {% for net in networks %}
+      - {{ net }}
+      {% endfor %}
+    {% endif %}
+
+{% if networks is defined %}
+networks:
+  {% for net in networks %}
+  {{ net }}:
+    external: true
+  {% endfor %}
+{% endif %}

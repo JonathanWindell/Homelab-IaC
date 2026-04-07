@@ -1,0 +1,14 @@
+services:
+  n8n:
+    image: "{{ n8n_config.n8n_image }}"
+    restart: always
+    ports:
+      - "{{ n8n_config.n8n_host_port }}:5678"
+    env_file:
+      - n8n.env
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./local-files:/files
+
+volumes:
+  n8n_data:
