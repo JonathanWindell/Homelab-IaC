@@ -1,0 +1,13 @@
+container_ip_addresses:
+  prometheus_alertmanager: 192.168.0.70
+  nginx_proxy_manager: 192.168.0.33
+  adguard: 192.168.0.14
+  uptime_kuma: 192.168.0.220
+  grafana: 192.168.0.179
+  prometheus: 192.168.0.66
+  linkwarden: 192.168.0.213
+  wazuh: 192.168.0.253
+  gitea: 192.168.0.19
+  homepage: 192.168.0.116
+  kimai: 192.168.0.82
+  syncthing: 192.168.0.91

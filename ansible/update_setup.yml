@@ -1,0 +1,16 @@
+---
+- name: Update LXCs via Host
+  hosts: lxc_containers
+  
+  tasks:
+    - name: Run update inside LXC
+      delegate_to: proxmox_server
+      command: "pct exec {{ vmid }} -- apt-get update && apt-get upgrade -y"
+
+- name: Update VMs via SSH
+  hosts: virtual_machines
+  tasks:
+    - name: Standard Update
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist
