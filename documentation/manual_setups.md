@@ -1,61 +1,48 @@
-# Manual Setup of Proxmox Helper Scripts
+# Manual Setup: Proxmox Helper Scripts
 
-## 1.0: Overview
-For the services which uses [Proxmox Helper Scripts](https://community-scripts.org/scripts) which have to be installed manually since the scripts themselves create an LX-container
+## 1.0 Overview
+This guide covers services deployed using [Proxmox Helper Scripts](https://community-scripts.org/). These scripts are executed in the Proxmox VE shell to automate the creation and initial configuration of LXC containers.
 
-## 2.0: Services
+---
 
-### 2.1: Nginx Proxy Manager
-- Install [Nginx Proxy Manager](https://community-scripts.org/scripts?q=Nginx) script through proxmox shell
-- Create Admin & Login
+## 2.0 Service Catalog
+| Service | Category | Script Link | Default Port |
+| :--- | :--- | :--- | :--- |
+| **Nginx Proxy Manager** | Networking | [Link](https://community-scripts.org/scripts/nginxproxymanager) | 81 |
+| **Adguard Home** | Security/DNS | [Link](https://community-scripts.org/scripts/adguard) | 3000 |
+| **Uptime Kuma** | Monitoring | [Link](https://community-scripts.org/scripts/uptimekuma) | 3001 |
+| **Grafana** | Visualization | [Link](https://community-scripts.org/scripts/grafana) | 3000 |
+| **Kimai** | Time Tracking | [Link](https://community-scripts.org/scripts/kimai) | 8001 |
+| **Homepage** | Dashboard | [Link](https://community-scripts.org/scripts/homepage) | 3000 |
 
-#### 2.1.1 Installing Tailscale
+---
 
-### 2.2: Adguard
-- Install [Adguard](https://community-scripts.org/scripts?q=Adguard) script through proxmox shell
-- Create Admin & Login
+## 3.0 Standard Installation Steps
 
-#### 2.2.1 Installing Tailscale
+### 3.1 Primary Services
+For all services listed in the catalog:
+1. Run the script via the **Proxmox VE Shell**.
+2. Follow the wizard (Default settings are recommended for LXC).
+3. Once completed, access the Web UI via the provided IP.
+4. **Action:** Create Admin account & perform initial login.
 
-### 2.3: Uptime Kuma
-- Install [Uptime Kuma](https://community-scripts.org/scripts?q=Uptime) script through proxmox shell
-- Create Admin & Login
+### 3.2 Post-Install: Tailscale (Optional)
+For services requiring remote access (NPM, Adguard, Uptime Kuma):
+1. Run the [Tailscale Script](https://community-scripts.org/scripts/add-tailscale-lxc) in the Proxmox shell.
+2. Select the target LXC container.
+3. Inside the LXC console, run: `tailscale up`.
+4. Authenticate via the generated URL.
 
-#### 2.3.1 Installing Tailscale
+---
 
-### 2.4: Grafana
-- Install [Grafana](https://community-scripts.org/scripts?q=grafana) script through proxmox shell
-- Create Admin & Login
+## 4.0 Service Specific Notes
 
-### 2.5: Glances
-- Install [Glances](https://community-scripts.org/scripts?q=Glances) script through proxmox shell
-- Create Admin & Login
+### 4.1 Monitoring Stack (Prometheus & Grafana)
+* **Prometheus:** [Script](https://community-scripts.org/scripts/prometheus) - Handles data collection.
+* **Alertmanager:** [Script](https://community-scripts.org/scripts/prometheus-alertmanager) - Handles notification logic.
+* **Glances:** [Script](https://community-scripts.org/scripts?q=Glances) - System monitoring (Install on target hosts).
 
-### 2.6: Prometheus
-- Install [Prometheus](https://community-scripts.org/scripts/prometheus) script through proxmox shell
-- Create Admin & Login
-
-### 2.7: Prometheus Alertmanager
-- Install [Prometheus Alertmanager](https://community-scripts.org/scripts/prometheus-alertmanager) script through proxmox shell
-- Create Admin & Login
-
-### 2.8: Linkwarden
-- Install [Linkwarden](https://community-scripts.org/scripts/linkwarden) script through proxmox shell
-- Create Admin & Login
-
-### 2.9: File-Browser
-- Install [File Browser](https://community-scripts.org/scripts/filebrowser) script within a LXC console. 
-- Create Admin & Login
-
-### 2.11: Syncthing
-- Install [Syncthing](https://community-scripts.org/scripts/syncthing) script through proxmox shell
-- Create Admin & Login
-
-### 2.12: Kimai
-- Install [Nginx Proxy Manager](https://community-scripts.org/scripts?q=Kimai) script through proxmox shell
-- Create Admin & Login
-
-### 2.13: Homepage
-- Install [Nginx Proxy Manager](https://community-scripts.org/scripts?q=Nginx) script through proxmox shell
-- Create Admin & Login
-
+### 4.2 Utility Services
+* **File Browser:** [Script](https://community-scripts.org/scripts/filebrowser) - Install within an existing LXC to manage files via Web UI.
+* **Linkwarden:** [Script](https://community-scripts.org/scripts/linkwarden) - Self-hosted bookmark manager.
+* **Syncthing:** [Script](https://community-scripts.org/scripts/syncthing) - Continuous file synchronization.
