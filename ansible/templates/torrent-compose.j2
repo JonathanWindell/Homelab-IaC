@@ -1,0 +1,35 @@
+services:
+  gluetun:
+    image: "{{ torrent_config.gluetun_image }}"
+    restart: unless-stopped
+    ports:
+      - "{{ torrent_config.host_port }}:8080" 
+      - "{{ torrent_config.qbit_tcp_port }}"  
+      - "{{ torrent_config.qbit_udp_port }}"  
+    env_file:
+      - torrent.env 
+    volumes:
+      - ./gluetun-data:/gluetun
+    cap_add:
+      - NET_ADMIN 
+    healthcheck:
+      test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  qbittorrent:
+    image: "{{ torrent_config.qbit_image }}"
+    restart: unless-stopped
+    network_mode: "service:gluetun" 
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Stockholm
+      - WEBUI_PORT=8080
+    volumes: 
+      - ./qb-config:/config
+      - /mnt/downloads:/downloads
+    depends_on:
+      gluetun:
+        condition: service_healthy

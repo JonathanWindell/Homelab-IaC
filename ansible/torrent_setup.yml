@@ -1,0 +1,26 @@
+---
+- name: Torrent setup
+  hosts: torrent_server 
+  become: true
+
+  tasks:
+    - name: Ensure deployment directory exists
+      ansible.builtin.file:
+        path: /opt/pia-stack 
+        state: directory
+        mode: '0755'
+
+    - name: Create .env file
+      ansible.builtin.template: 
+        src: templates/torrent.env.j2
+        dest: /opt/pia-stack/torrent.env
+
+    - name: Create docker-compose file
+      ansible.builtin.template: 
+        src: templates/torrent-compose.j2
+        dest: /opt/pia-stack/docker-compose.yml
+
+    - name: Start docker-compose
+      community.docker.docker_compose_v2:
+        project_src: /opt/pia-stack
+        state: present

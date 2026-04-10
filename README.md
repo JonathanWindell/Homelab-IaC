@@ -21,28 +21,30 @@ I'm Jonathan and I develop projects in my sparetime that help myself and others 
 
 # Project Structure
 ```
-.
+./
 ├── ansible/
-│   ├── host_vars            # Contains secret values
+│   ├── host_vars               # Contains secret values
 │   ├── playbook/
-│   │   └── group_vars       # Contains secret values
-│   ├── templates            # Docker structures & values
-│   ├── inventory.ini
-│   ├── n8n_setup.yml        # Setup for n8n
-│   └── portfolio_setup.yml  # Setup for portfolio
-├── documentation            # Manual setup steps
-├── terraform/
-│   ├── proxmox              # Setup for proxmox
-│   ├── unifi                # Setup for unifi
-│   ├── terraform.lock.hcl   # Information about providers
-│   ├── provider.tf          # Providers & connections
-│   ├── terraform.tfvars     # Contains secret value
-│   └── variables.tf         # Creates objects for variables
-├── .gitignore               # Files Git should ignore
-├── commands.txt             # Useful commands
-├── LICENSE                  # MIT license
-├── README.md                # Overview & usage
-└── Requirements.tx          # Needed packages
+│   │   └── group_vars          # Contains secret values
+│   ├── templates               # Docker structures & values
+│   ├── inventory.ini           # Contains IP & User for VM:s
+│   ├── n8n_setup.yml           # Setup for n8n
+│   ├── paperless_setup.yml     # Setup for paperless
+│   ├── portfolio_setup.yml     # Setup for portfolio
+│   └── torrent_setup.yml       # Setup for qbit-torrent
+├── documentation               # Manual setup steps
+├── terraform /
+│   ├── proxmox                 # Setup for unifi
+│   ├── unifi                   # Setup for unifi
+│   ├── terraform.lock.hcl      # Information about providers
+│   ├── provider.tf             # Providers & connections
+│   ├── terraform.tfvars        # Contains secret value
+│   └── variables.tf            # Creates objects for variables
+├── .gitignore                  # Files Git should ignore
+├── commands.txt                # Useful commands
+├── LICENSE                     # MIT license
+├── README.md                   # Overview & usage
+└── Requirement.txt             # Needed packages
 ```
 
 # Recommended Reading

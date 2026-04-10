@@ -1,0 +1,44 @@
+services:
+  broker:
+    image: "{{ paperless_config.redis_image }}"
+    restart: unless-stopped
+    volumes:
+      - redisdata:/data
+
+  webserver:
+    image: "{{ paperless_config.webserver_image }}"
+    restart: unless-stopped
+    depends_on:
+      - broker
+      - gotenberg
+      - tika
+    ports:
+      - "{{ paperless_config.host_port }}:8000"
+    env_file:
+      - paperless.env
+    volumes:
+      - data:/usr/src/paperless/data
+      - media:/usr/src/paperless/media
+      - ./export:/usr/src/paperless/export
+      - ./consume:/usr/src/paperless/consume
+
+  gotenberg:
+    image: "{{ paperless_config.gotenberg_image }}"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  tika:
+    image: "{{ paperless_config.tika_image }}"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 800M
+
+volumes:
+  data:
+  media:
+  redisdata:

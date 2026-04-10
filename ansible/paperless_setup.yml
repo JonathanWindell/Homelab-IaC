@@ -1,0 +1,38 @@
+---
+- name: Paperless NGX with Gotenberg & Apache Tika
+  hosts: docker-srv-01
+  become: true
+
+  tasks:
+    - name: Ensure deployment directory exists
+      ansible.builtin.file:
+        path: /opt/docker-projects/paperlessngx
+        state: directory
+        mode: '0755'
+
+    - name: Create data directories with correct permissions
+      ansible.builtin.file:
+        path: "/opt/docker-projects/paperlessngx/{{ item }}"
+        state: directory
+        owner: "1000"
+        group: "1000"
+        mode: '0775'
+      loop:
+        - consume
+        - export
+
+    - name: Create .env file
+      ansible.builtin.template:
+        src: templates/paperlessngx.env.j2
+        dest: /opt/docker-projects/paperlessngx/paperless.env
+
+    - name: Create docker-compose file
+      ansible.builtin.template:
+        src: templates/paperlessngx-compose.j2
+        dest: /opt/docker-projects/paperlessngx/docker-compose.yml
+
+    - name: Start docker-compose
+      community.docker.docker_compose_v2:
+        project_src: /opt/docker-projects/paperlessngx
+        state: present
+        wait: true
