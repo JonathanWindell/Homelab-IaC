@@ -1,16 +1,34 @@
 ---
-- name: Update LXCs via Host
-  hosts: lxc_containers
-  
-  tasks:
-    - name: Run update inside LXC
-      delegate_to: proxmox_server
-      command: "pct exec {{ vmid }} -- apt-get update && apt-get upgrade -y"
+- name: Monthly System Maintenance
+  hosts: all
+  become: true
+  serial: 1 
 
-- name: Update VMs via SSH
-  hosts: virtual_machines
   tasks:
-    - name: Standard Update
+  # Virtual Machine Updating
+    - name: Update and Upgrade VMs
+      when: "'virtual_machines' in group_names"
       ansible.builtin.apt:
         update_cache: yes
         upgrade: dist
+        autoremove: yes
+        purge: yes
+
+    - name: Check if VM needs a reboot
+      when: "'virtual_machines' in group_names"
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot VM if kernel was updated
+      when: "'virtual_machines' in group_names" and reboot_required.stat.exists
+      ansible.builtin.reboot:
+        msg: "Ansible monthly update reboot"
+        reboot_timeout: 300
+
+    # LXC Updating
+    - name: Update LXC via Proxmox Host
+      when: "'lxc_containers' in group_names"
+      delegate_to: proxmox_server  
+      ansible.builtin.command:
+        cmd: "pct exec {{ vmid }} -- bash -c 'apt-get update && apt-get dist-upgrade -y && apt-get autoremove -y'"
